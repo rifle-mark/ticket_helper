@@ -10,6 +10,9 @@
 
 #include <mw_ttype.h>
 
+void pgsql_init();
+void pgsql_release();
+
 void pgsql_save_result(ssc_result *r);
 void pgsql_update_result(ssc_result *r);
 ssc_result* pgsql_get_result(unsigned long issue_num);

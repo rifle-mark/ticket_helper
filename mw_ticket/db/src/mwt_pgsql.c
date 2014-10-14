@@ -5,8 +5,43 @@
  *      Author: macbook
  */
 
+
+#include <postgresql/libpq-fe.h>
 #include "mwt_pgsql.h"
 
+
+static const char* db_key[] = {
+		"host",
+		"port",
+		"dbname",
+		"user",
+		"password"
+};
+
+static const char* db_val[] = {
+		"localhost",
+		"5432",
+		"ticket_test",
+		"rifle",
+		"38619rry"
+};
+
+static PGconn *dbcon = NULL;
+
+int pgsql_init() {
+	dbcon = PQconnectdbParams(db_key, db_val, 1);
+	if (PQstatus(dbcon) == CONNECTION_OK) {
+		return 1;
+	}
+	return 0;
+}
+
+void pgsql_release() {
+	if (dbcon) {
+		PQfinish(dbcon);
+		dbcon = NULL;
+	}
+}
 
 void pgsql_save_result(ssc_result *r) {
 
